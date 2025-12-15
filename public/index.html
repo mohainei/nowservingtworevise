@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Queueing System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="background-animation"></div>
+
+  <div class="container">
+    <h1>Queueing System</h1>
+    <div class="datetime" id="datetime"></div>
+
+    <div class="transaction-grid">
+      <div class="transaction-box" data-transaction="Business Permit">
+        💰 Business Permit
+      </div>
+      <div class="transaction-box" data-transaction="RPT">❓ RPT</div>
+      <div class="transaction-box" data-transaction="LCR">🛠️ LCR</div>
+      <div class="transaction-box" data-transaction="Cedula">📄 Cedula</div>
+      <div class="transaction-box" data-transaction="Others">🧾 Others</div>
+      <div class="transaction-box" data-transaction="PUV/PUM">🚐 PUV/PUM</div>
+      <div class="transaction-box" data-transaction="Assessment">
+        🔄 Assessment
+      </div>
+      <div class="transaction-box" data-transaction="Inquiry/Support">
+        💬 Inquiry/Support
+      </div>
+    </div>
+
+    <div class="queue-display">
+      <h2>Your Queue Number:</h2>
+      <div id="queueNumber">---</div>
+    </div>
+
+    <button id="printBtn" class="hidden">Print Queue Number</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

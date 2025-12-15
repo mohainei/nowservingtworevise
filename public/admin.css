@@ -1,0 +1,107 @@
+/* === ADMIN DASHBOARD STYLE === */
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.2em;
+  color: #00e6ff;
+}
+
+header p {
+  margin-top: 5px;
+  color: #a7e9ff;
+  font-size: 1.1em;
+}
+
+main {
+  flex: 1;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.queue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.queue-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.queue-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+}
+
+.queue-card h2 {
+  margin-bottom: 10px;
+  font-size: 1.4em;
+  color: #00ffcc;
+}
+
+.now-serving {
+  color: #00ff99;
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.queue-card h3 {
+  margin-top: 15px;
+  font-size: 1.1em;
+  color: #a7e9ff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  font-size: 1.05em;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+li {
+  margin: 4px 0;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  color: #e5faff;
+}
+
+/* Scrollbar Styling */
+ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+ul::-webkit-scrollbar-thumb {
+  background-color: #00e6ff;
+  border-radius: 4px;
+}

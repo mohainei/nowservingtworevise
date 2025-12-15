@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Now Serving Display</title>
+    <link rel="stylesheet" href="display.css" />
+  </head>
+  <body>
+    <header>
+      <h1>NOW SERVING</h1>
+      <h2>Real-Time Queue Display</h2>
+    </header>
+
+    <div id="displayGrid" class="display-grid"></div>
+
+    <div id="noQueueMessage">No active queues at the moment</div>
+
+    <audio id="queueSound" src="notify.wav" preload="auto"></audio>
+    <button id="enableSound">Enable Sound 🔊</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="display.js"></script>
+  </body>
+</html>

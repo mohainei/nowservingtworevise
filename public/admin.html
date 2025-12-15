@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header>
+    <h1>Admin Dashboard</h1>
+    <p>Monitor all queues and their current serving numbers in real time</p>
+  </header>
+
+  <main>
+    <div class="queue-grid" id="queueGrid"></div>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

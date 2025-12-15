@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Teller Station</title>
+    <link rel="stylesheet" href="teller.css" />
+  </head>
+  <body>
+    <h1>Teller Station</h1>
+
+    <div class="teller-info">
+      <label for="teller">Select Teller:</label>
+      <select id="teller">
+        <option value="">-- Select Teller --</option>
+        <option value="Teller 1">Teller 1</option>
+        <option value="Teller 2">Teller 2</option>
+        <option value="Teller 3">Teller 3</option>
+        <option value="Teller 4">Teller 4</option>
+        <option value="Teller 5">Teller 5</option>
+        <option value="Teller 6">Teller 6</option>
+        <option value="Teller 7">Teller 7</option>
+        <option value="Teller 8">Teller 8</option>
+        <option value="Teller 9">Teller 9</option>
+        <option value="Teller 10">Teller 10</option>
+      </select>
+      <button id="playSoundBtn" class="sound-btn">
+        🔔 Play Sound on Display
+      </button>
+    </div>
+
+    <div class="queue-section">
+      <div class="queue-card" id="Business Permit">
+        <h2>💰 Business Permit</h2>
+        <div id="businessPermitNumber" class="served-number">---</div>
+        <button onclick="serveNext('Business Permit')">Serve Next</button>
+        <button onclick="callAgain('Business Permit')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+
+      <div class="queue-card">
+        <h2>❓ RPT</h2>
+        <div id="rptNumber" class="served-number">---</div>
+        <button onclick="serveNext('RPT')">Serve Next</button>
+        <button onclick="callAgain('RPT')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+
+      <div class="queue-card">
+        <h2>🛠️ LCR</h2>
+        <div id="lcrNumber" class="served-number">---</div>
+        <button onclick="serveNext('LCR')">Serve Next</button>
+        <button onclick="callAgain('LCR')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+
+      <div class="queue-card">
+        <h2>📄 Cedula</h2>
+        <div id="cedulaNumber" class="served-number">---</div>
+        <button onclick="serveNext('Cedula')">Serve Next</button>
+        <button onclick="callAgain('Cedula')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+
+      <div class="queue-card">
+        <h2>📄 Others</h2>
+        <div id="othersNumber" class="served-number">---</div>
+        <button onclick="serveNext('Others')">Serve Next</button>
+        <button onclick="callAgain('Others')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+
+      <div class="queue-card">
+        <h2>🚐 PUV/PUM</h2>
+        <div id="puvNumber" class="served-number">---</div>
+        <button onclick="serveNext('PUV/PUM')">Serve Next</button>
+        <button onclick="callAgain('PUV/PUM')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+
+      <div class="queue-card">
+        <h2>🔄 Assessment</h2>
+        <div id="assessmentNumber" class="served-number">---</div>
+        <button onclick="serveNext('Assessment')">Serve Next</button>
+        <button onclick="callAgain('Assessment')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+
+      <div class="queue-card">
+        <h2>💬 Inquiry/Support</h2>
+        <div id="inquirySupportNumber" class="served-number">---</div>
+        <button onclick="serveNext('Inquiry/Support')">Serve Next</button>
+        <button onclick="callAgain('Inquiry/Support')" class="call-again">
+          Call Again 🔁
+        </button>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="teller.js"></script>
+  </body>
+</html>
