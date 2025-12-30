@@ -1,3 +1,4 @@
+// Pretty URLs for main pages
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -10,6 +11,19 @@ const io = new Server(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
+
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+app.get('/teller', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'teller.html'));
+});
+
+app.get('/display', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'display.html'));
+});
 
 // === Queue Data ===
 let queues = {
@@ -211,14 +225,41 @@ app.post("/api/serveNext", async (req, res) => {
     );
 
     // 3️⃣ Update now serving
-    nowServing[transaction] = {
-      number: next,
-      teller,
-    };
+    // nowServing[transaction] = {
+    //   number: next,
+    //   teller,
+    // };
+
+    // if (!nowServing[transaction]) {
+    //   nowServing[transaction] = [];
+    // }
+
+    // nowServing[transaction].push({
+    //   number: next,
+    //   teller
+    // });
+
+
+     if (!nowServing[transaction]) {
+    nowServing[transaction] = [];
+  }
+
+  nowServing[transaction] = nowServing[transaction].filter(
+    q => q.teller !== teller
+  );
+
+  nowServing[transaction].push({ number: next, teller });
+
+
 
     // 4️⃣ Notify clients
     io.emit("updateNowServing", nowServing);
     io.emit("updateQueues", { queues, nowServing });
+
+    setTimeout(() => {
+    nowServing[transaction] = nowServing[transaction].filter(q => q.teller !== teller);
+    io.emit("updateNowServing", nowServing);
+  }, 200000);
 
     res.json({ number: next, teller });
   } catch (err) {
@@ -227,30 +268,6 @@ app.post("/api/serveNext", async (req, res) => {
   }
 });
 
-// setInterval(() => {
-//   const now = new Date();
-//   const today = now.toISOString().split("T")[0];
-
-//   if (now.getHours() === 0 && now.getMinutes() === 0) {
-//     if (lastResetDate !== today) {
-//       for (const key in queueCounters) {
-//         queueCounters[key] = 0;
-//       }
-
-//       try {
-//       await db.query(
-//         "UPDATE queues SET status = 'EXPIRED' WHERE DATE(created_at) < CURDATE()"
-//       );
-//       console.log("✅ Daily queues expired in DB");
-//     } catch (err) {
-//       console.error("❌ Error expiring old queues:", err);
-//     }
-
-//       lastResetDate = today;
-//       console.log("🔄 Daily counters reset");
-//     }
-//   }
-// }, 60000);
 
 setInterval(async () => {
   const now = new Date();
@@ -297,31 +314,36 @@ app.get("/api/cleanup", (req, res) => {
   res.json({ message: "Cleaned up empty queues." });
 });
 
-// === Socket.IO Connections ===
-// io.on("connection", (socket) => {
-//   console.log("🟢 A client connected");
+app.post("/api/callAgain", (req, res) => {
+  const { transaction, teller } = req.body;
 
-//   // Send initial data on connection
-//   socket.emit("updateNowServing", nowServing);
-//   socket.emit("updateQueues", { queues, nowServing });
+  const list = nowServing[transaction];
+  if (!Array.isArray(list)) {
+    return res.status(404).json({ error: "No active serving queue" });
+  }
 
-//   socket.on("disconnect", () => {
-//     console.log("🔴 A client disconnected");
-//   });
-// });
+  const current = list.find(q => q.teller === teller);
 
-// io.on("connection", (socket) => {
-//   console.log("🟢 A client connected");
+  if (!current) {
+    return res.status(404).json({ error: "Nothing to recall" });
+  }
 
-//   // When teller triggers sound
-//   socket.on("playSound", () => {
-//     console.log("🔊 Teller requested sound play");
-//     io.emit("playSound"); // broadcast to all display clients
-//   });
+  // 🔔 Notify displays
+  io.emit("callAgain", {
+    transaction,
+    teller,
+    number: current.number
+  });
 
-//   // Existing event for now serving
-//   socket.emit("updateNowServing", nowServing);
-// });
+  res.json({ success: true });
+});
+
+
+app.post("/api/playSound", (req, res) => {
+  io.emit("playSound");
+  res.json({ message: "Sound played on display." });
+});
+
 
 io.on("connection", (socket) => {
   console.log("🟢 A client connected");
@@ -359,28 +381,9 @@ server.listen(PORT, async () => {
   await restoreNowServing();
 });
 
-app.post("/api/callAgain", (req, res) => {
-  const { transaction } = req.body;
 
-  if (!nowServing[transaction]) {
-    return res.json({
-      message: `No active queue for ${transaction} to call again.`,
-    });
-  }
 
-  // Emit to display to replay sound and highlight animation
-  io.emit("callAgain", { transaction, info: nowServing[transaction] });
-  console.log(
-    `🔁 ${transaction}: Called again ${nowServing[transaction].number}`
-  );
 
-  res.json({
-    message: `${transaction} - Recalled ${nowServing[transaction].number}`,
-  });
-});
 
 // Teller manually plays sound on display
-app.post("/api/playSound", (req, res) => {
-  io.emit("playSound");
-  res.json({ message: "Sound played on display." });
-});
+

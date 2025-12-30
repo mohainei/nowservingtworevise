@@ -37,7 +37,7 @@ printBtn.addEventListener("click", async () => {
 
   const now = new Date().toLocaleString();
 
-  const printWindow = window.open("", "", "width=300,height=400");
+  const printWindow = window.open("", "", "width=400,height=400");
   printWindow.document.write(`
     <html>
     <head>
@@ -70,7 +70,7 @@ printBtn.addEventListener("click", async () => {
       </style>
     </head>
     <body>
-      <h2>QUEUE TICKET</h2>
+      <h2>CTO-QUEUE TICKET</h2>
       <div class="divider"></div>
       <h3>${currentTransaction}</h3>
       <div class="big">${currentNumber}</div>
@@ -80,10 +80,12 @@ printBtn.addEventListener("click", async () => {
       <script>
         window.print();
         window.onafterprint = () => window.close();
+        setTimeout(() => window.close(), 1000); 
       </script>
     </body>
     </html>
   `);
+  
 
   // Notify server for queue assignment
   await fetch("/api/direct-print", {
